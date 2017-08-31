@@ -1,0 +1,60 @@
+echo "Downloading package for Drupal instalation"
+echo "Installing Debian/Ubuntu packages..."
+
+#following command will install Apache2, Mysql server ,  Php7.0, all php package require for Drupal 
+sudo -S <<< "123456" apt-get --yes install apache2 
+sudo -S <<< "123456" apt-get --yes install curl 
+sudo -S <<< "123456" apt-get --yes install php7.0 
+sudo -S <<< "123456" apt-get --yes install php7.0-mysql php7.0-xml 
+sudo -S <<< "123456" apt-get --yes install php7.0-gd php7.0-mbstring 
+sudo -S <<< "123456" apt-get --yes install libapache2-mod-php snmp 
+sudo -S <<< "123456" apt-get --yes install libsnmp-dev php7.0-cli 
+sudo -S <<< "123456" apt-get --yes install php7.0-curl php-mcrypt
+
+#acttivating the firewall using Apache Full protection
+echo "Applying Apache Full firewall"
+ufw allow in "Apache Full"
+
+#The following command will replace a line so that the server can access the index.php from root location
+sed -i '/DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm/c\DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm' /etc/apache2/mods-enabled/dir.conf
+
+#The following comman will set allow_url_fopen to Off in php.ini file
+#sed editor is used for editing the file
+
+echo " Modifying the php.ini file"     
+sed -i 's/allow_url_fopen\s*=.*/allow_url_fopen=Off/g' /etc/php/7.0/apache2/php.ini
+sed -i 's/expose_php\s*=.*/expose_php=Off/g' /etc/php/7.0/apache2/php.ini
+
+#setting apache url rewrite mode
+color_echo "Setting up the Apache mod_rewrite for Drupal clean urls..."
+a2enmod rewrite
+
+#it will add the servername name and override all permission in the virtual host
+sed -i '/#ServerName www.example.com/c\\t ServerName  localhost' /etc/apache2/sites-enabled/000-default.conf
+
+sed -i '13 a \\t <Directory /var/www/html>' /etc/apache2/sites-enabled/000-default.conf
+sed -i '14 a \\t\t	AllowOverride All' /etc/apache2/sites-enabled/000-default.conf
+sed -i '15 a \\t	</Directory>' /etc/apache2/sites-enabled/000-default.conf
+
+
+#restart the apache server
+echo "Restarting the apache server"  
+sudo -S <<< "123456" service apache2 restart
+
+#following command will download the iimbx archive from git lab into the directory where this bash script is located
+echo "Downloaing IIMbx from Git Lab"
+wget http://gitlab.cse.iitb.ac.in/mangeshg/iimbx/repository/archive.tar.gz
+
+
+#create a directory under /var/www/html
+#extract the contents ot that directory
+#use strip-components to eliminate the root folder in the zip file
+echo "Extracting the zip file and placing it in /var/www/html/iimbx"
+sudo -S <<< "123456" mkdir /var/www/html/iimbx/
+sudo -S <<< "123456" chmod 777 -R /var/www/html/iimbx/
+sudo -S <<< "123456" tar -xvf archive.tar.gz -C /var/www/html/iimbx --strip-components=1
+
+echo "Creating new setting.php file for iimbx and providing permissions"
+sudo -S <<< "123456" rm /var/www/html/iimbx/sites/default/settings.php
+sudo -S <<< "123456" cp /var/www/html/iimbx/sites/default/default.settings.php /var/www/html/iimbx/sites/default/settings.php
+sudo -S <<< "123456" chmod 777 -R /var/www/html/iimbx/
