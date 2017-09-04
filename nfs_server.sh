@@ -10,8 +10,7 @@ sudo -S <<< "123456" chown nobody:nogroup -R /var/www/html/iimbx
 sudo -S <<< "123456" chmod 777 /etc
 
 #appending ip address for sharing
-sed -i '10 a \\n/var/www/html/iimbx/sites/default/files 10.129.26.103(rw,sync,no_subtree_check)' /etc/exports
-
+sed -i "10 a \\\n/var/www/html/iimbx/sites/default/files $1(rw,sync,no_subtree_check)" /etc/exports
 sudo -S <<< "123456" chmod 755 /etc
 
 #restarting nfs server
