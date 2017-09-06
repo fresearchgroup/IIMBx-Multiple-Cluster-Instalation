@@ -1,17 +1,15 @@
 #install nfs server
 
-sudo -S <<< "123456" apt-get update
-sudo -S <<< "123456" apt-get install nfs-kernel-server -y
+sudo -S <<< $1 apt-get update
+sudo -S <<< $1 apt-get install nfs-kernel-server -y
 
 #provide permission
-sudo -S <<< "123456" chown nobody:nogroup -R /var/www/html/iimbx
+sudo -S <<< $1 chown nobody:nogroup -R /var/www/html/iimbx
 
-#chnaging permissions
-sudo -S <<< "123456" chmod 777 /etc
 
 #appending ip address for sharing
-sed -i "10 a \\\n/var/www/html/iimbx/sites/default/files $1(rw,sync,no_subtree_check)" /etc/exports
-sudo -S <<< "123456" chmod 755 /etc
+sudo -S <<< $1 sed -i "10 a \\\n/var/www/html/iimbx/sites/default/files $2(rw,sync,no_subtree_check)" /etc/exports
+
 
 #restarting nfs server
-sudo -S <<< "123456" systemctl restart nfs-kernel-server
+sudo -S <<< $1 systemctl restart nfs-kernel-server

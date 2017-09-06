@@ -1,7 +1,7 @@
 #install nfs client
 
-sudo -S <<< "123456" apt-get update
-sudo -S <<< "123456" apt-get install nfs-common
+sudo -S <<< $1 apt-get update
+sudo -S <<< $1 apt-get install nfs-common
 
 #and mount the directory
-sudo -S <<< "123456" mount $1:/var/www/html/iimbx/sites/default/files /var/www/iimbx/sites/default/files
+sudo -S <<< $1 mount $2:/var/www/html/iimbx/sites/default/files /var/www/iimbx/sites/default/files
