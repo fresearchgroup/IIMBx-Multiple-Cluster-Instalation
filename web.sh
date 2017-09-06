@@ -26,7 +26,7 @@ sudo -S <<< $1 sed -i 's/allow_url_fopen\s*=.*/allow_url_fopen=Off/g' /etc/php/7
 sudo -S <<< $1 sed -i 's/expose_php\s*=.*/expose_php=Off/g' /etc/php/7.0/apache2/php.ini
 
 #setting apache url rewrite mode
-color_echo "Setting up the Apache mod_rewrite for Drupal clean urls..."
+echo "Setting up the Apache mod_rewrite for Drupal clean urls..."
 a2enmod rewrite
 
 #it will add the servername name and override all permission in the virtual host
