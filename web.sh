@@ -2,6 +2,7 @@ echo "Downloading package for Drupal instalation"
 echo "Installing Debian/Ubuntu packages..."
 
 #following command will install Apache2, Mysql server ,  Php7.0, all php package require for Drupal 
+sudo -S <<< $1 apt-get update
 sudo -S <<< $1 apt-get --yes install apache2 
 sudo -S <<< $1 apt-get --yes install curl 
 sudo -S <<< $1 apt-get --yes install php7.0 

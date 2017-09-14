@@ -6,6 +6,7 @@ export DEBIAN_FRONTEND="noninteractive"
 sudo -S <<< $1 debconf-set-selections <<< "mysql-server mysql-server/root_password password root"
 sudo -S <<< $1 debconf-set-selections <<< "mysql-server mysql-server/root_password_again password root"
 
+sudo -S <<< $1 apt-get update
 sudo -S <<< $1 apt-get install -y mysql-server
 
 echo "Downloaing IIMbx database from Git Lab"
