@@ -27,7 +27,7 @@ sudo -S <<< $1 sed -i 's/expose_php\s*=.*/expose_php=Off/g' /etc/php/7.0/apache2
 
 #setting apache url rewrite mode
 echo "Setting up the Apache mod_rewrite for Drupal clean urls..."
-a2enmod rewrite
+sudo -S <<< $1 a2enmod rewrite
 
 #it will add the servername name and override all permission in the virtual host
 sudo -S <<< $1 sed -i '/#ServerName www.example.com/c\\t ServerName  localhost' /etc/apache2/sites-available/000-default.conf
