@@ -52,7 +52,7 @@ wget http://gitlab.cse.iitb.ac.in/mangeshg/iimbx/repository/archive.tar.gz
 echo "Extracting the zip file and placing it in /var/www/html/iimbx"
 sudo -S <<< $1 mkdir /var/www/html/iimbx/
 sudo -S <<< $1 chmod 777 -R /var/www/html/iimbx/
-sudo -S <<< $1 tar -xvf archive.tar.gz -C /var/www/html/iimbx --strip-components=1
+sudo -S <<< $1 tar -pxvf archive.tar.gz -C /var/www/html/iimbx --strip-components=1
 
 echo "Creating new setting.php file for iimbx and providing permissions"
 sudo -S <<< $1 rm /var/www/html/iimbx/sites/default/settings.php
